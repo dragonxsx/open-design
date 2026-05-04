@@ -399,7 +399,6 @@ async function auditCopiedStandalone(config, installResult) {
 async function pruneRootNext(appPath) {
   const appNodeModulesRoot = path.join(appPath, "Contents", "Resources", "app", "node_modules");
   const removedPaths = [];
-  await removePathAndRecord(path.join(appNodeModulesRoot, "next"), "root next package", removedPaths);
 
   const nextScopeRoot = path.join(appNodeModulesRoot, "@next");
   const nextScopeEntries = await readdir(nextScopeRoot).catch(() => []);
