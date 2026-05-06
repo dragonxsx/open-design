@@ -111,7 +111,7 @@ export function createDesktopHarness(name: string) {
         const ready = await this.eval<boolean>(`
           (() => Boolean(
             document.querySelector('[role="dialog"]') ||
-            document.querySelector('button.foot-pill') ||
+            document.querySelector('button[title="Configure execution mode"]') ||
             document.querySelector('.settings-icon-btn')
           ))()
         `);
@@ -121,7 +121,7 @@ export function createDesktopHarness(name: string) {
       const clicked = await this.eval(`
         (() => {
           if (document.querySelector('[role="dialog"]')) return true;
-          const homeButton = document.querySelector('button.foot-pill');
+          const homeButton = document.querySelector('button[title="Configure execution mode"]');
           if (homeButton instanceof HTMLElement) {
             homeButton.click();
             return true;
@@ -197,6 +197,10 @@ async function runToolsDev(args: string[]): Promise<string> {
 
 async function runToolsDevJson<T>(args: string[]): Promise<T> {
   const stdout = await runToolsDev(args);
+  const trimmed = stdout.trim();
+  if (trimmed.startsWith('{')) {
+    return JSON.parse(trimmed) as T;
+  }
   const jsonStart = stdout.lastIndexOf('\n{');
   if (jsonStart < 0) {
     throw new Error(`Expected JSON output from tools-dev, got: ${stdout}`);
