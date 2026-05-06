@@ -200,7 +200,6 @@ function nextApiProtocolConfig(
   if (siblingProvider) {
     return {
       ...defaultApiProtocolConfig(protocol),
-      apiKey: currentConfig.apiKey,
       baseUrl: siblingProvider.baseUrl,
       model: siblingProvider.model,
       apiProviderBaseUrl: siblingProvider.baseUrl,
@@ -210,6 +209,7 @@ function nextApiProtocolConfig(
   if (currentConfig.apiProviderBaseUrl === null) {
     return {
       ...currentConfig,
+      apiKey: '',
       apiVersion: protocol === 'azure' ? currentConfig.apiVersion : '',
       apiProviderBaseUrl: null,
     };
@@ -217,7 +217,6 @@ function nextApiProtocolConfig(
 
   return {
     ...defaultApiProtocolConfig(protocol),
-    apiKey: currentConfig.apiKey,
   };
 }
 
