@@ -19,7 +19,7 @@ async function bootstrapWithLegacyConfig(
   });
 
   await page.goto('/');
-  await page.locator('button.foot-pill').click();
+  await page.getByTitle('Configure execution mode').click();
   await expect(page.getByRole('dialog')).toBeVisible();
 }
 
@@ -37,18 +37,21 @@ test('legacy known OpenAI provider switches to the matching Anthropic preset', a
     agentModels: {},
   });
 
-  const openAiTab = page.getByRole('tab', { name: /OpenAI API/ });
-  const anthropicTab = page.getByRole('tab', { name: /Anthropic API/ });
+  const protocolTabs = page.getByRole('tablist', { name: 'API protocol' });
+  const openAiTab = protocolTabs.getByRole('tab', { name: 'OpenAI', exact: true });
+  const anthropicTab = protocolTabs.getByRole('tab', { name: 'Anthropic', exact: true });
   const baseUrlInput = page.getByLabel('Base URL');
   const modelSelect = page.getByLabel('Model');
 
   await expect(openAiTab).toHaveAttribute('aria-selected', 'true');
+  await expect(page.getByRole('heading', { name: 'OpenAI API' })).toBeVisible();
   await expect(baseUrlInput).toHaveValue('https://api.deepseek.com');
   await expect(modelSelect).toHaveValue('deepseek-chat');
 
   await anthropicTab.click();
 
   await expect(anthropicTab).toHaveAttribute('aria-selected', 'true');
+  await expect(page.getByRole('heading', { name: 'Anthropic API' })).toBeVisible();
   await expect(baseUrlInput).toHaveValue('https://api.deepseek.com/anthropic');
   await expect(modelSelect).toHaveValue('deepseek-chat');
 });
@@ -67,18 +70,21 @@ test('legacy custom provider preserves custom baseUrl and model when switching p
     agentModels: {},
   });
 
-  const anthropicTab = page.getByRole('tab', { name: /Anthropic API/ });
-  const openAiTab = page.getByRole('tab', { name: /OpenAI API/ });
+  const protocolTabs = page.getByRole('tablist', { name: 'API protocol' });
+  const openAiTab = protocolTabs.getByRole('tab', { name: 'OpenAI', exact: true });
+  const anthropicTab = protocolTabs.getByRole('tab', { name: 'Anthropic', exact: true });
   const baseUrlInput = page.getByLabel('Base URL');
   const customModelInput = page.getByLabel(/Custom model id/i);
 
-  await expect(anthropicTab).toHaveAttribute('aria-selected', 'true');
+  await expect(openAiTab).toHaveAttribute('aria-selected', 'true');
+  await expect(page.getByRole('heading', { name: 'OpenAI API' })).toBeVisible();
   await expect(baseUrlInput).toHaveValue('https://my-proxy.example.com/v1');
   await expect(customModelInput).toHaveValue('my-custom-model');
 
-  await openAiTab.click();
+  await anthropicTab.click();
 
-  await expect(openAiTab).toHaveAttribute('aria-selected', 'true');
+  await expect(anthropicTab).toHaveAttribute('aria-selected', 'true');
+  await expect(page.getByRole('heading', { name: 'Anthropic API' })).toBeVisible();
   await expect(baseUrlInput).toHaveValue('https://my-proxy.example.com/v1');
   await expect(customModelInput).toHaveValue('my-custom-model');
 });
