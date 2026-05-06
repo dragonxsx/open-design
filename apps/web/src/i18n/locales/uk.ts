@@ -148,6 +148,8 @@ export const uk: Dict = {
   'entry.tabVideoTemplates': 'Шаблони відеороликів',
   'promptTemplates.searchPlaceholder': 'Пошук шаблонів…',
   'promptTemplates.countLabel': '{n} результатів',
+  'promptTemplates.allSources': 'Усі джерела',
+  'promptTemplates.sourceFilterAria': 'Фільтрувати за джерелом',
   'promptTemplates.emptyImage': 'Шаблонів підказок для зображень ще не встановлено.',
   'promptTemplates.emptyVideo': 'Шаблонів підказок для відео ще не встановлено.',
   'promptTemplates.emptyNoMatch': 'Немає шаблонів, що відповідають вашому пошуку.',
@@ -164,6 +166,8 @@ export const uk: Dict = {
   'promptTemplates.openSource': 'Переглянути оригінал',
   'promptTemplates.openFullscreen': 'Відкрити попередній перегляд у повноекранному режимі',
   'promptTemplates.closeFullscreen': 'Закрити попередній перегляд у повноекранному режимі',
+  'promptTemplates.allSources': 'Усі джерела',
+  'promptTemplates.sourceFilterAria': 'Фільтрувати за джерелом',
   'promptTemplates.retry': 'Повторити',
 
   'connectors.title': 'Конектори',
